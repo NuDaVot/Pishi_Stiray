@@ -110,7 +110,7 @@
             Grid.Row="3"
             Grid.ColumnSpan="2"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-            ItemsSource="{Binding Product ,Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+            ItemsSource="{Binding Product ,Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" >
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel></WrapPanel>
@@ -118,10 +118,111 @@
             </ListView.ItemsPanel>
             <ListView.ItemTemplate>
                 <DataTemplate>
+                    <Border
+                        BorderThickness="1" 
+                        BorderBrush="#FF498C51"
+                        Height="150">
+                        <Grid 
+                        Margin="5"
+                        
+                        VerticalAlignment="Center"
+                        >
+                            <Grid.ColumnDefinitions >
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Image 
+                            Margin="20 0"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Stretch="Fill"
+                            Width="100"
+                            Height="50"
+                            Source="{Binding product.ProductPhoto}">
+
+                            </Image>
+
+                            <Grid
+                            Grid.Column="1" 
+                            VerticalAlignment="Center">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"></RowDefinition>
+                                    <RowDefinition Height="auto"></RowDefinition>
+                                    <RowDefinition Height="auto"></RowDefinition>
+                                    <RowDefinition Height="auto"></RowDefinition>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Style="{StaticResource TextBlock_Main}"
+                                    Foreground="#FF498C51"
+                                    TextWrapping="Wrap"
+                                    DataContext="{Binding product.ProductIdnameNavigation}"
+                                    Text="{Binding ProductName1 , Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                    ></TextBlock>
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Style="{StaticResource TextBlock_Main}"
+                                    TextWrapping="Wrap"
+                                    
+                                    Text="{Binding product.ProductDescription, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                    ></TextBlock>
+                                <TextBlock
+                                    Grid.Row="2"
+                                    Style="{StaticResource TextBlock_Main}"
+                                    TextWrapping="Wrap"
+                                    DataContext="{Binding product.ProductIdmanufacturerNavigation}"
+                                    Text="{Binding ProductNameManufacturer, StringFormat=Производитель {0}, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                    ></TextBlock>
+                                <WrapPanel
+                                    Grid.Row="3">
+                                    <TextBlock
+                                    TextWrapping="Wrap"
+                                    Style="{StaticResource TextBlock_Main}"
+                                    Text="Цена "
+                                    ></TextBlock>
+                                    <TextBlock
+                                    TextWrapping="Wrap"
+                                    Style="{StaticResource TextBlock_Main}"
+                                    Text="{Binding product.ProductCost,Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                    TextDecorations="Strikethrough"
+                                    ></TextBlock>
+                                    <TextBlock
+                                    TextWrapping="Wrap"
+                                    Style="{StaticResource TextBlock_Main}"
+                                    Text="{Binding NewCost, StringFormat={} {0},Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                    ></TextBlock>
+                                </WrapPanel>
+                               
+
+                            </Grid>
+
+                            <Border
+                            Margin="10 10"
+                            Grid.Column="2" 
+                            Background="{Binding Brash_discond}"
+                            Width="50"
+                            Height="50"
+                                >
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Foreground="Black"
+                                    Text="{Binding product.ProductDiscountAmount, StringFormat={}{0}% }">
+                                    
+                                </TextBlock>
+
+                            </Border>
+
+                        </Grid>
+                    </Border>
+                    
 
                         
                         
-                        <WrapPanel
+                        <!--<WrapPanel
                             Width="500"
                             Height="90"
                             Orientation="Vertical"
@@ -181,7 +282,7 @@
                             </WrapPanel>
                             
                         </StackPanel>
-                        </WrapPanel>
+                        </WrapPanel>-->
 
                     
                         

@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:Mvvm_test1"
         xmlns:vm="clr-namespace:Mvvm_test1.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Пиши - Стипай" Height="450" Width="800"
+        Icon="D:\3 курс 2\Мдк 11.01 (даза банных)\15_Типо Демо Экзамен Востановелние Базы данных\09_1.6-2022_1\Вариант 1\Вариант 1\Общие ресурсы\icon.ico">
     <Window.DataContext>
         <vm:MainWimdowViewModel></vm:MainWimdowViewModel>
     </Window.DataContext>
