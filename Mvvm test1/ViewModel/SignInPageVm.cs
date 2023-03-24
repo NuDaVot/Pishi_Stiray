@@ -29,12 +29,14 @@ namespace Mvvm_test1.ViewModel
             Look = new DelegateCommand<string>(str =>
             {
                 _model.IsDate();
-            }); 
+            });
+            
         }
         public DelegateCommand<string> Sign_In { get; }
         public DelegateCommand<string> Look { get;}
+        
     }
-
+   
 
 }
 

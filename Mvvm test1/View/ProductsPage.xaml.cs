@@ -24,5 +24,7 @@ namespace Mvvm_test1.View
         {
             InitializeComponent();
         }
+
+        
     }
 }

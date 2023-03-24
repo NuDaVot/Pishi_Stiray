@@ -40,4 +40,5 @@ public partial class Product
     public virtual Productprovider? ProductIdproviderNavigation { get; set; }
 
     public virtual Productunit? ProductIdunitNavigation { get; set; }
+
 }

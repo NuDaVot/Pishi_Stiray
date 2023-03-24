@@ -18,7 +18,7 @@ namespace Mvvm_test1.Model
         private readonly Trade3Context _tradeContext = new Trade3Context();
         static public User? User { get; set; } = null;
         public string Name { get; set; }
-        public string NameSort { get; set; } = "По возростанию";
+        public string NameSort { get; set; } = "По возрастанию";
         public string filter { get; set; } = "Все  диапазоны";
         public string Count { get; set; } 
 
@@ -41,13 +41,13 @@ namespace Mvvm_test1.Model
         }
         public void Sort() 
         {
-            if(NameSort == "По возростанию")
+            if(NameSort == "По возрастанию")
             {
                 NameSort = "По убыванию";
             }
             else
             {
-                NameSort = "По возростанию";
+                NameSort = "По возрастанию";
             }
             GetProducts();
             RaisePropertiesChanged("NameSort");
@@ -65,21 +65,28 @@ namespace Mvvm_test1.Model
         public List<ProductView> GetViewProducts()
         {
             List<ProductView> products = new();
-            var product = _tradeContext.Products.ToList();
+            var productsBD = _tradeContext.Products.ToList();
             var productname = _tradeContext.Productnames.ToList();
             var manufacturer = _tradeContext.Productmanufacturers.ToList();
-            for(int i = 0; i < product.Count; i++)
+            for (int i = 0; i < productsBD.Count; i++)
             {
                 products.Add(
-                    new ProductView(
-                        product[i].ProductIdnameNavigation.ProductName1,
-                        product[i].ProductDescription,
-                        product[i].ProductIdmanufacturerNavigation.ProductNameManufacturer,
-                        Convert.ToDouble(product[i].ProductCost),
-                        Convert.ToDouble(product[i].ProductDiscountAmount),
-                        product[i].ProductPhoto
-                        )
-                    ); ;
+                    new ProductView
+                    (
+                        new Product
+                        {
+                            ProductIdname = productsBD[i].ProductIdname,
+                            ProductIdnameNavigation = productsBD[i].ProductIdnameNavigation,
+                            ProductDescription = productsBD[i].ProductDescription,
+                            ProductCost = productsBD[i].ProductCost,
+                            ProductIdmanufacturer = productsBD[i].ProductIdmanufacturer,
+                            ProductIdmanufacturerNavigation = productsBD[i].ProductIdmanufacturerNavigation,
+                            ProductPhoto = String.IsNullOrEmpty(productsBD[i].ProductPhoto) ? "\\Resources\\Image\\picture.png" : "\\Resources\\Image\\" + productsBD[i].ProductPhoto,
+                            ProductDiscountAmount = productsBD[i].ProductDiscountAmount,
+                        }
+                        ));
+
+                    
             }
             return products;
         }
@@ -89,20 +96,20 @@ namespace Mvvm_test1.Model
             Count = $"\\{products.Count}";
             //MessageBox.Show($"{products.Count}");
             if (!string.IsNullOrEmpty(search))
-                products = products.Where(p => p.ProductDescription.ToLower().Contains(search.ToLower())).ToList();
-
+                products = products.Where(p => p.product.ProductDescription.ToLower().Contains(search.ToLower())).ToList();
+            
             if (!string.IsNullOrEmpty(filter))
             {
                 switch (filter)
                 {
                     case "0-9,99%":
-                        products = products.Where(p => p.ProductCostDiscount >= 0 && p.ProductCostDiscount < 5).ToList();
+                        products = products.Where(p => p.product.ProductDiscountAmount >= 0 && p.product.ProductDiscountAmount < 5).ToList();
                         break;
                     case "10-14,99%":
-                        products = products.Where(p => p.ProductCostDiscount >= 5 && p.ProductCostDiscount < 9).ToList();
+                        products = products.Where(p => p.product.ProductDiscountAmount >= 5 && p.product.ProductDiscountAmount < 9).ToList();
                         break;
                     case "15% и более":
-                        products = products.Where(p => p.ProductCostDiscount >= 9).ToList();
+                        products = products.Where(p => p.product.ProductDiscountAmount >= 9).ToList();
                         break;
                     default: break;
                 }
@@ -113,10 +120,10 @@ namespace Mvvm_test1.Model
                 switch (NameSort)
                 {
                     case "По возрастанию":
-                        products = products.OrderBy(p => p.ProductCost).ToList();
+                        products = products.OrderBy(p => p.product.ProductCost).ToList();
                         break;
                     case "По убыванию":
-                        products = products.OrderByDescending(p => p.ProductCost).ToList();
+                        products = products.OrderByDescending(p => p.product.ProductCost).ToList();
                         break;
                 }
                 

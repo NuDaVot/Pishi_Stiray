@@ -26,7 +26,11 @@ namespace Mvvm_test1.ViewModel
                 _model.Sort();
             });
             _model.GetProducts();
-            
+            TestCommand = new DelegateCommand<string>(str =>
+            {
+                //var pr = (Product)sender;
+                //MessageBox.Show(this.Product);
+            });
 
         }
         public string UserName => _model.Name;
@@ -65,5 +69,6 @@ namespace Mvvm_test1.ViewModel
         public string NameSort => _model.NameSort;
         public DelegateCommand<string> Sort { get; set; }
         public string Count => _model.Count;
+        public DelegateCommand<string> TestCommand { get; }
     }
 }

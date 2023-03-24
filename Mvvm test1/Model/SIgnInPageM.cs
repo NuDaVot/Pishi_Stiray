@@ -33,18 +33,24 @@ namespace Mvvm_test1.Model
         {
             if (Login != null && Password != null) 
             {
-                var user = _tradeContext.Users.First(p => p.UserLogin == Login);
-                if (user != null)
+                try
                 {
-                    if (user.UserPassword.Equals(Password))
+                    var user = _tradeContext.Users.First(p => p.UserLogin == Login);
+                    if (user != null)
                     {
-                        MessageBox.Show("Da");
-                        _mainWimdow.Navipage("ProductsPage.xaml");
-                        ProductM.User = user;
+                        if (user.UserPassword.Equals(Password))
+                        {
+                            MessageBox.Show("Da");
+                            _mainWimdow.Navipage("ProductsPage.xaml");
+                            ProductM.User = user;
+                        }
+                        else { MessageBox.Show("Не верный пароль"); }
                     }
-                    else { MessageBox.Show("Не верный пароль"); }
                 }
-                else { MessageBox.Show("Пользователь не найден"); }
+                catch {
+                     MessageBox.Show("Пользователь не найден"); 
+               
+                 }
             }
             else { MessageBox.Show("Что-то пусто"); }
         }
