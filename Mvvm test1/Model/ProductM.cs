@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -22,7 +23,7 @@ namespace Mvvm_test1.Model
         public string filter { get; set; } = "Все  диапазоны";
         public string Count { get; set; } 
 
-        public List<ProductView> Products { get; set; }
+        public ObservableCollection<ProductView> Products { get; set; }
 
         string search { get; set; } = null;
 
@@ -62,9 +63,9 @@ namespace Mvvm_test1.Model
             filter = value;
             GetProducts();
         }
-        public List<ProductView> GetViewProducts()
+        public ObservableCollection<ProductView> GetViewProducts()
         {
-            List<ProductView> products = new();
+            ObservableCollection<ProductView> products = new();
             var productsBD = _tradeContext.Products.ToList();
             var productname = _tradeContext.Productnames.ToList();
             var manufacturer = _tradeContext.Productmanufacturers.ToList();
@@ -75,6 +76,7 @@ namespace Mvvm_test1.Model
                     (
                         new Product
                         {
+                            ProductArticleNumber = productsBD[i].ProductArticleNumber,
                             ProductIdname = productsBD[i].ProductIdname,
                             ProductIdnameNavigation = productsBD[i].ProductIdnameNavigation,
                             ProductDescription = productsBD[i].ProductDescription,
@@ -96,20 +98,20 @@ namespace Mvvm_test1.Model
             Count = $"\\{products.Count}";
             //MessageBox.Show($"{products.Count}");
             if (!string.IsNullOrEmpty(search))
-                products = products.Where(p => p.product.ProductDescription.ToLower().Contains(search.ToLower())).ToList();
+                products = new ObservableCollection<ProductView>(products.Where(p => p.product.ProductDescription.ToLower().Contains(search.ToLower())).ToList());
             
             if (!string.IsNullOrEmpty(filter))
             {
                 switch (filter)
                 {
                     case "0-9,99%":
-                        products = products.Where(p => p.product.ProductDiscountAmount >= 0 && p.product.ProductDiscountAmount < 5).ToList();
+                        products = new ObservableCollection<ProductView>(products.Where(p => p.product.ProductDiscountAmount >= 0 && p.product.ProductDiscountAmount < 5).ToList());
                         break;
                     case "10-14,99%":
-                        products = products.Where(p => p.product.ProductDiscountAmount >= 5 && p.product.ProductDiscountAmount < 9).ToList();
+                        products = new ObservableCollection<ProductView>(products.Where(p => p.product.ProductDiscountAmount >= 5 && p.product.ProductDiscountAmount < 9).ToList());
                         break;
                     case "15% и более":
-                        products = products.Where(p => p.product.ProductDiscountAmount >= 9).ToList();
+                        products = new ObservableCollection<ProductView>(products.Where(p => p.product.ProductDiscountAmount >= 9).ToList());
                         break;
                     default: break;
                 }
@@ -120,10 +122,10 @@ namespace Mvvm_test1.Model
                 switch (NameSort)
                 {
                     case "По возрастанию":
-                        products = products.OrderBy(p => p.product.ProductCost).ToList();
+                        products = new ObservableCollection<ProductView>(products.OrderBy(p => p.product.ProductCost).ToList());
                         break;
                     case "По убыванию":
-                        products = products.OrderByDescending(p => p.product.ProductCost).ToList();
+                        products = new ObservableCollection<ProductView>(products.OrderByDescending(p => p.product.ProductCost).ToList());
                         break;
                 }
                 
